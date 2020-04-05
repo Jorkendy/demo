@@ -31,9 +31,27 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                'react-hot-loader/babel',
+                [
+                  'import',
+                  {
+                    libraryName: 'antd',
+                    libraryDirectory: 'es',
+                    style: 'css'
+                  },
+                  'antd'
+                ]
+              ]
+            }
+          }
+        ]
       }
     ]
   },

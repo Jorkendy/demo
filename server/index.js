@@ -38,7 +38,7 @@ app.get('*', (req, res) => {
 })
 
 const host = 'localhost'
-const port = 9999
+const port = 3000
 
 app.listen(port, host, error => {
   if (error) {
