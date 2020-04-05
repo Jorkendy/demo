@@ -1,22 +1,30 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const webpackbar = require("webpackbar");
-
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const Webpackbar = require('webpackbar')
 
 module.exports = {
-  mode: "development",
+  resolve: {
+    modules: [
+      path.resolve(__dirname, '../src'),
+      path.resolve(__dirname, '../node_modules')
+    ],
+    extensions: ['.js', '.jsx'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
   cache: true,
   entry: [
-    "webpack-hot-middleware/client?reload=true",
-    path.join(process.cwd(), "src/index.js"),
+    'webpack-hot-middleware/client?reload=true',
+    path.join(process.cwd(), 'src/index.js')
   ],
   output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "[name].js",
-    chunkFilename: "[name].chunk.js",
-    publicPath: "/",
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -24,37 +32,37 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-        },
-      },
-    ],
+          loader: 'babel-loader'
+        }
+      }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 512 }),
-    new webpackbar(),
+    new Webpackbar(),
     new webpack.IgnorePlugin(/^\.\/local$/, /moment$/),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "../src/public/index.html"),
-      inject: true,
+      template: path.join(__dirname, '../src/public/index.html'),
+      inject: true
     })
   ],
   optimization: {
     usedExports: true,
-    moduleIds: "hashed",
-    runtimeChunk: "single",
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all",
-        },
-      },
-    },
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
   performance: {
-    hints: false,
-  },
-};
+    hints: false
+  }
+}

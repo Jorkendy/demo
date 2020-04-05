@@ -1,20 +1,20 @@
-const merge = require("webpack-merge");
-const autoprefixer = require("autoprefixer");
-const webpack = require("webpack");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const merge = require('webpack-merge')
+const autoprefixer = require('autoprefixer')
+const webpack = require('webpack')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const basic = require("./webpack.config");
+const basic = require('./webpack.config')
+
 const postCssLoader = {
-  loader: "postcss-loader",
+  loader: 'postcss-loader',
   options: {
-    inent: "postcss",
-    plugins: [autoprefixer],
-  },
-};
+    inent: 'postcss',
+    plugins: [autoprefixer]
+  }
+}
 
 module.exports = merge(basic, {
-  mode: "development",
+  mode: 'development',
   module: {
     rules: [
       {
@@ -22,32 +22,32 @@ module.exports = merge(basic, {
           {
             test: /\.css$/,
             sideEffects: true,
-            use: ["style-loader", "css-loader", postCssLoader],
+            use: ['style-loader', 'css-loader', postCssLoader]
           },
           {
             test: /\.(scss|sass)$/,
             sideEffects: true,
-            use: ["style-loader", "css-loader", postCssLoader, "sass-loader"],
+            use: ['style-loader', 'css-loader', postCssLoader, 'sass-loader']
           },
           {
             test: /\.less$/,
             sideEffects: true,
-            use: ["style-loader", "css-loader", postCssLoader, "less-loader"],
-          },
-        ],
-      },
-    ],
+            use: ['style-loader', 'css-loader', postCssLoader, 'less-loader']
+          }
+        ]
+      }
+    ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin()
   ],
-  devtool: "cheap-module-eval-source-map",
+  devtool: 'cheap-module-eval-source-map',
   optimization: {
     splitChunks: {
       minSize: 10000,
       maxAsyncRequests: Infinity,
-      maxInitialRequests: Infinity,
-    },
-  },
-});
+      maxInitialRequests: Infinity
+    }
+  }
+})

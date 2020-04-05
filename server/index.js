@@ -1,50 +1,51 @@
-const express = require("express");
-const path = require("path");
-const webpack = require("webpack");
-const compression = require("compression");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const chalk = require("chalk");
-const ip = require("ip");
+const express = require('express')
+const path = require('path')
+const webpack = require('webpack')
+const compression = require('compression')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
+const chalk = require('chalk')
+const ip = require('ip')
 
-const app = express();
+const app = express()
 
-const webpackConfig = require("../webpack/webpack.dev.js");
-const compiler = webpack(webpackConfig);
+const webpackConfig = require('../webpack/webpack.dev.js')
+
+const compiler = webpack(webpackConfig)
 const middleware = webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
   silent: true,
-  stats: "error-only",
-  logLevel: "warn",
-});
+  stats: 'error-only',
+  logLevel: 'warn'
+})
 
-app.use(compression());
-app.use("/static", express.static("static"));
-app.use(middleware);
-app.use(webpackHotMiddleware(compiler));
+app.use(compression())
+app.use('/static', express.static('static'))
+app.use(middleware)
+app.use(webpackHotMiddleware(compiler))
 
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
   middleware.fileSystem.readFile(
-    path.join(compiler.outputPath, "index.html"),
+    path.join(compiler.outputPath, 'index.html'),
     (err, file) => {
       if (err) {
-        res.sendStatus(404);
+        res.sendStatus(404)
       }
 
-      return res.send(file.toString());
+      return res.send(file.toString())
     }
-  );
-});
+  )
+})
 
-const host = "localhost";
-const port = 9999;
+const host = 'localhost'
+const port = 9999
 
-app.listen(port, host, (error) => {
+app.listen(port, host, error => {
   if (error) {
-    return console.error(chalk.red(err));
+    return console.error(chalk.red(err))
   }
   console.log(`
-  ${chalk.gray("\n-----------------------------------")}
+  ${chalk.gray('\n-----------------------------------')}
   Localhost: ${chalk.green(`http://${host}:${port}`)}
-        LAN: ${chalk.green(`http://${ip.address()}:${port}`)}`);
-});
+        LAN: ${chalk.green(`http://${ip.address()}:${port}`)}`)
+})

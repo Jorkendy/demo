@@ -1,8 +1,8 @@
-import React from "react";
-import { render } from "react-dom";
+import React from "react"
+import { render } from "react-dom"
 
-import "./index.scss";
+import "./index.scss"
 
 import("./App").then(({ default: App }) => {
-  render(<App />, document.querySelector("#root"));
-});
+  render(<App />, document.querySelector("#root"))
+})
